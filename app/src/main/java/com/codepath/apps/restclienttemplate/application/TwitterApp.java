@@ -1,10 +1,11 @@
-package com.codepath.apps.restclienttemplate;
+package com.codepath.apps.restclienttemplate.application;
 
 import android.app.Application;
 import android.content.Context;
 
 import androidx.room.Room;
 
+import com.codepath.apps.restclienttemplate.TwitterClient;
 import com.codepath.apps.restclienttemplate.data.MyDatabase;
 import com.facebook.stetho.Stetho;
 
