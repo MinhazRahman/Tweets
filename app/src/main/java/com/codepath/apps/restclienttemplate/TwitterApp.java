@@ -5,6 +5,7 @@ import android.content.Context;
 
 import androidx.room.Room;
 
+import com.codepath.apps.restclienttemplate.data.MyDatabase;
 import com.facebook.stetho.Stetho;
 
 /*
