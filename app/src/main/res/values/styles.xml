@@ -9,6 +9,9 @@
         <item name="colorSecondary">@color/light_blue_primary</item>
         <item name="colorSecondaryVariant">@color/light_blue_dark</item>
         <item name="colorOnSecondary">@color/white</item>
+
+        <!-- divider -->
+        <item name="android:listDivider">@drawable/divider_gray</item>
     </style>
 
     <!-- Application theme. -->
@@ -18,6 +21,9 @@
 
         <!-- Text colors -->
         <item name="android:textColorPrimary">@color/abc_primary_text_material_light</item>
+
+        <!-- divider -->
+        <item name="android:listDivider">@drawable/divider_gray</item>
 
         <!-- Customize your theme here. -->
         <item name="android:windowContentTransitions">true</item>
