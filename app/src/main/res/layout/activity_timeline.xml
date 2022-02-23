@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.TimelineActivity"
-    android:background= "@color/light_theme_background">
+    android:background= "@color/light_theme_background"
+    android:fontFamily="@font/roboto">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeContainer"

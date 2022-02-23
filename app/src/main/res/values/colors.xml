@@ -5,6 +5,7 @@
     <color name="light_blue_primary">#1da1f2</color>
     <color name="light_blue_dark">#0073bf</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="black">#000000</color>
 
 
     <color name="dark_theme_status_bar">#000000</color>
@@ -16,4 +17,7 @@
     <color name="light_theme_app_bar">#F5F5F5</color>
     <color name="light_theme_background">#FAFAFA</color>
     <color name="light_theme_cards_dialogs">#FFFFFF</color>
+
+    <!-- 87% black -->
+    <color name="primary_text_default_material_light">#de000000</color>
 </resources>
