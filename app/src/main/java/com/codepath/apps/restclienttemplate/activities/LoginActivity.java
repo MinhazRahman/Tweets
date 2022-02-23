@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.application.TwitterApp;
@@ -17,11 +18,22 @@ import com.codepath.oauth.OAuthLoginActionBarActivity;
 public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 
 	SampleModelDao sampleModelDao;
+	Button btnLogin;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+
+		// Find the views
+		btnLogin = findViewById(R.id.btnLogin);
+		// add a click listener to the login button
+		btnLogin.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				getClient().connect();
+			}
+		});
 
 		final SampleModel sampleModel = new SampleModel();
 		sampleModel.setName("CodePath");
@@ -64,8 +76,8 @@ public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 	// Click handler method for the button used to start OAuth flow
 	// Uses the client to initiate OAuth authorization
 	// This should be tied to a button used to login
-	public void loginToRest(View view) {
-		getClient().connect();
-	}
+	public void loginToRest(View view) { getClient().connect(); }
+
+
 
 }
