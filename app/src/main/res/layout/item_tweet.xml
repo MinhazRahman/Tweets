@@ -5,8 +5,7 @@
     android:id="@+id/rlItemTweet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:background="@color/light_theme_cards_dialogs">
+    android:layout_margin="5dp">
 
     <ImageView
         android:id="@+id/ivProfileImage"
@@ -19,7 +18,7 @@
         android:scaleType="fitXY"/>
 
     <TextView
-        android:id="@+id/tvScreenName"
+        android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -27,8 +26,22 @@
         android:layout_marginTop="0dp"
         android:layout_toEndOf="@id/ivProfileImage"
         android:fontFamily="@font/roboto"
-        android:textColor="@color/black"
-        android:text="@string/minhaz_tee" />
+        android:text="@string/minhaz_tee"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/tvScreenName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@id/tvName"
+        android:fontFamily="@font/roboto"
+        android:text="@string/minhaz_tee"
+        android:textColor="@color/twitter_dark_gray" />
 
     <TextView
         android:id="@+id/tvBody"
@@ -39,6 +52,6 @@
         android:layout_marginTop="2dp"
         android:layout_toEndOf="@id/ivProfileImage"
         android:fontFamily="@font/roboto"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         tools:text="This is a tweet" />
 </RelativeLayout>
