@@ -26,10 +26,10 @@
         android:layout_marginTop="0dp"
         android:layout_toEndOf="@id/ivProfileImage"
         android:fontFamily="@font/roboto"
-        android:text="@string/minhaz_tee"
+        android:text="@string/user_name"
         android:textColor="@color/white"
-        android:textStyle="bold"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvScreenName"
@@ -41,6 +41,18 @@
         android:layout_toEndOf="@id/tvName"
         android:fontFamily="@font/roboto"
         android:text="@string/minhaz_tee"
+        android:textColor="@color/twitter_dark_gray" />
+
+    <TextView
+        android:id="@+id/tvRelativeTimestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@id/tvScreenName"
+        android:fontFamily="@font/roboto"
+        android:text="@string/ts10h"
         android:textColor="@color/twitter_dark_gray" />
 
     <TextView

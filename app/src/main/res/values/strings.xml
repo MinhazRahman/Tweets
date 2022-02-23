@@ -8,5 +8,7 @@
     <string name="tweets">Tweets</string>
     <string name="minhaz_tee">minhaz_tee</string>
     <string name="connect_to_twitter">CONNECT TO TWITTER</string>
+    <string name="user_name">user_name</string>
+    <string name="ts10h">ts10h</string>
 
 </resources>
