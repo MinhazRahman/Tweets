@@ -67,6 +67,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         ImageView ivProfileImage;
         TextView tvName;
         TextView tvScreenName;
+        TextView tvRelativeTimestamp;
         TextView tvBody;
 
         // itemView refers to each row layout (a set of views)
@@ -77,12 +78,14 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
             tvName = itemView.findViewById(R.id.tvName);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
+            tvRelativeTimestamp = itemView.findViewById(R.id.tvRelativeTimestamp);
             tvBody = itemView.findViewById(R.id.tvBody);
         }
 
         public void bindTweet(Tweet tweet) {
             tvName.setText(tweet.getUser().getName());
             tvScreenName.setText(tweet.getUser().getScreenName());
+            tvRelativeTimestamp.setText(tweet.getRelativeTimestamp());
             tvBody.setText(tweet.getBody());
 
             // Load the profile image using Glide
