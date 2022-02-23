@@ -65,6 +65,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     // Define a ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView ivProfileImage;
+        TextView tvName;
         TextView tvScreenName;
         TextView tvBody;
 
@@ -74,13 +75,15 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
             // Find each view of the row layout that itemView refers to
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
+            tvName = itemView.findViewById(R.id.tvName);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             tvBody = itemView.findViewById(R.id.tvBody);
         }
 
         public void bindTweet(Tweet tweet) {
-            tvBody.setText(tweet.getBody());
+            tvName.setText(tweet.getUser().getName());
             tvScreenName.setText(tweet.getUser().getScreenName());
+            tvBody.setText(tweet.getBody());
 
             // Load the profile image using Glide
             Glide.
