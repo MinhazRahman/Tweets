@@ -14,6 +14,7 @@ import com.codepath.apps.restclienttemplate.adapters.TweetsAdapter;
 import com.codepath.apps.restclienttemplate.application.TwitterApp;
 import com.codepath.apps.restclienttemplate.client.TwitterClient;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.utils.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.restclienttemplate.utils.SpacesItemDecoration;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
@@ -37,6 +38,7 @@ public class TimelineActivity extends AppCompatActivity {
     RecyclerView.ItemDecoration itemDecoration;
     SpacesItemDecoration spacesItemDecoration;
     SwipeRefreshLayout swipeContainer;
+    EndlessRecyclerViewScrollListener scrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +71,10 @@ public class TimelineActivity extends AppCompatActivity {
         // Initialize the list of tweets and adapter
         tweets = new ArrayList<>();
         tweetsAdapter = new TweetsAdapter(this, tweets);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
         // Setup the RecyclerView: layout manager and the adapter
-        rvTweets.setLayoutManager(new LinearLayoutManager(this));
+        rvTweets.setLayoutManager(linearLayoutManager);
         rvTweets.setAdapter(tweetsAdapter);
 
         // decorate each item using decorators attached to the recyclerview
@@ -84,7 +87,47 @@ public class TimelineActivity extends AppCompatActivity {
         rvTweets.addItemDecoration(itemDecoration);
         rvTweets.addItemDecoration(spacesItemDecoration);
 
+        // Define the scrollListener by passing the linearLayoutManager
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Log.i(TAG,"onLoadMore" + page);
+                loadMoreTweets();
+            }
+        };
+
+        // Adds the scroll listener to RecyclerView
+        rvTweets.addOnScrollListener(scrollListener);
+
         populateHomeTimeline();
+    }
+
+    // this is where we will make another API call to get the next page of tweets
+    // and add the objects to our current list of tweets
+    private void loadMoreTweets() {
+        // Send an API request to retrieve appropriate paginated data
+        twitterClient.getNextPageOfTweets(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.i(TAG, "onSuccess." + json.toString());
+                // Deserialize and construct new model objects from the API response
+                JSONArray jsonArray = json.jsonArray;
+                try {
+                    // Get the list of tweets
+                    List<Tweet> tweetList = Tweet.fromJsonArray(jsonArray);
+                    // Append the new data objects to the existing set of items inside the array of items
+                    // Also notify the adapter of the new items made with `notifyItemRangeInserted()`
+                   tweetsAdapter.addAll(tweetList);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.e(TAG, "onFailure on loadMoreTweets." + response,throwable);
+            }
+        }, tweets.get(tweets.size() - 1).getId()); // pass the id of the last tweet.
     }
 
     private void populateHomeTimeline() {
@@ -107,7 +150,7 @@ public class TimelineActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.i(TAG, "onFailure." + response,throwable);
+                Log.e(TAG, "onFailure." + response,throwable);
             }
         });
     }
