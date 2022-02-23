@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tweet {
+    private long id;
     private String body;
     private String createdAt;
     private User user;
@@ -16,6 +17,7 @@ public class Tweet {
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
 
+        tweet.id = jsonObject.getLong("id");
         tweet.body = jsonObject.getString("text");
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
@@ -32,6 +34,10 @@ public class Tweet {
         }
 
         return tweets;
+    }
+
+    public long getId(){
+        return id;
     }
 
     public String getBody() {
