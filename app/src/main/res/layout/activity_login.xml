@@ -2,18 +2,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_blue_primary"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".activities.LoginActivity" >
 
-    <Button
+    <ImageView
+        android:id="@+id/ivTwitterIcon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@id/btnLogin"
+        android:layout_marginBottom="50dp"
         android:layout_centerHorizontal="true"
-        android:layout_margin="20dp"
+        android:gravity="center_vertical"
+        android:src="@drawable/ic_twitter"/>
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:gravity="center_vertical"
         android:onClick="loginToRest"
-        android:text="@string/login_label" />
+        android:text="@string/connect_to_twitter"
+        android:textColor="@color/white"
+        android:background="@color/light_blue_dark"/>
 
 </RelativeLayout>
