@@ -12,6 +12,10 @@
 
         <!-- divider -->
         <item name="android:listDivider">@drawable/divider_gray</item>
+
+        <!-- set windowActionBar to false in your theme to use a Toolbar instead -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <!-- Application theme. -->
@@ -20,7 +24,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
 
         <!-- Text colors -->
-        <item name="android:textColorPrimary">@color/abc_primary_text_material_light</item>
+        <item name="android:textColorPrimary">@color/white</item>
 
         <!-- divider -->
         <item name="android:listDivider">@drawable/divider_gray</item>
