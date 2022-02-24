@@ -8,6 +8,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
 import android.util.Log;
+import androidx.appcompat.widget.Toolbar;
 
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.adapters.TweetsAdapter;
@@ -39,12 +40,16 @@ public class TimelineActivity extends AppCompatActivity {
     SpacesItemDecoration spacesItemDecoration;
     SwipeRefreshLayout swipeContainer;
     EndlessRecyclerViewScrollListener scrollListener;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Tweets");
+
+        // set windowActionBar to false in the theme to use a Toolbar instead
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Tweets");
 
         twitterClient = TwitterApp.getRestClient(this);
 
