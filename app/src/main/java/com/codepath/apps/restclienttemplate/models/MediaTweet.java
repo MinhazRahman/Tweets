@@ -12,7 +12,9 @@ import java.util.List;
 public class MediaTweet {
     private long mediaId;
     private String mediaUrlHttps;
+    private String expandedUrl;
     private String type;
+    private VideoInfo videoInfo;
 
     public MediaTweet() {
 
@@ -21,6 +23,7 @@ public class MediaTweet {
     public MediaTweet(JSONObject jsonObject) throws JSONException{
         mediaId = jsonObject.getLong("id");
         mediaUrlHttps = jsonObject.getString("media_url_https");
+        expandedUrl = jsonObject.getString("expanded_url");
         type = jsonObject.getString("type");
     }
 
@@ -29,7 +32,13 @@ public class MediaTweet {
 
         mediaTweet.mediaId = jsonArray.getJSONObject(0).getLong("id");
         mediaTweet.mediaUrlHttps = jsonArray.getJSONObject(0).getString("media_url_https");
+        mediaTweet.expandedUrl = jsonArray.getJSONObject(0).getString("expanded_url");
         mediaTweet.type = jsonArray.getJSONObject(0).getString("type");
+
+        if (jsonArray.getJSONObject(0).has("video_info")){
+            mediaTweet.videoInfo = VideoInfo.getVideoInfoFromJson(jsonArray.getJSONObject(0).getJSONObject("video_info"));
+
+        }
 
         return mediaTweet;
     }
@@ -54,7 +63,15 @@ public class MediaTweet {
         return mediaUrlHttps;
     }
 
+    public String getExpandedUrl() {
+        return expandedUrl;
+    }
+
     public String getType() {
         return type;
+    }
+
+    public VideoInfo getVideoInfo() {
+        return videoInfo;
     }
 }
