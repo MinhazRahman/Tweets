@@ -5,6 +5,7 @@
     android:id="@+id/rlItemTweet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="10dp"
     android:layout_margin="5dp">
 
     <ImageView
@@ -83,5 +84,28 @@
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <RelativeLayout
+        android:id="@+id/rlVideoContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivMediaPhoto"
+        android:layout_toEndOf="@id/ivProfileImage"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical">
+
+        <VideoView
+            android:id="@+id/videoViewMedia"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"/>
+
+        <ImageView
+            android:id="@+id/iconPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_play_circle_white"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>
