@@ -4,10 +4,12 @@
 <!-- This is typically the root layout which wraps the app bar and content -->
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     android:id="@+id/main_content"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".activities.TimelineActivity"
     android:fontFamily="@font/roboto">
 
     <!-- AppBarLayout is a wrapper for a Toolbar in order to apply scrolling effects. -->
@@ -25,17 +27,16 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways" />
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activities.TimelineActivity"
         android:background= "@color/twitter_black"
-        android:fontFamily="@font/roboto">
+        android:fontFamily="@font/roboto"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeContainer"

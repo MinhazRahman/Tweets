@@ -50,6 +50,8 @@ public class TimelineActivity extends AppCompatActivity {
         // set windowActionBar to false in the theme to use a Toolbar instead
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Tweets");
+        // using toolbar as ActionBar
+        setSupportActionBar(toolbar);
 
         twitterClient = TwitterApp.getRestClient(this);
 
