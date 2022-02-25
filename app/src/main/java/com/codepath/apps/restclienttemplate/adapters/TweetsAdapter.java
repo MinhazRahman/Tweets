@@ -1,11 +1,17 @@
 package com.codepath.apps.restclienttemplate.adapters;
 
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.MediaController;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -100,6 +106,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvRelativeTimestamp;
         TextView tvBody;
         ImageView ivMediaPhoto;
+        VideoView videoViewMedia;
+        RelativeLayout rlVideoContainer;
 
         // itemView refers to each row layout (a set of views)
         public ViewHolder(@NonNull View itemView) {
@@ -112,6 +120,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvRelativeTimestamp = itemView.findViewById(R.id.tvRelativeTimestamp);
             tvBody = itemView.findViewById(R.id.tvBody);
             ivMediaPhoto = itemView.findViewById(R.id.ivMediaPhoto);
+            videoViewMedia = itemView.findViewById(R.id.videoViewMedia);
+            rlVideoContainer = itemView.findViewById(R.id.rlVideoContainer);
         }
 
         public void bindTweet(Tweet tweet) {
@@ -142,6 +152,41 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvRelativeTimestamp.setText(tweet.getRelativeTimestamp());
             tvBody.setText(tweet.getBody());
 
+            // Bind Photo, GIF or Video
+            String mediaType = tweet.getExtendedEntities().getMediaTweet().getType();
+
+            if ( !mediaType.equals("video")){
+                rlVideoContainer.setVisibility(View.GONE);
+                loadImage(tweet);
+            }else {
+                ivMediaPhoto.setVisibility(View.GONE);
+                loadVideo(tweet);
+            }
+            
+        }
+
+        private void loadVideo(Tweet tweet) {
+            MediaController mediaController = new MediaController(context);
+
+            mediaController.setAnchorView(videoViewMedia);
+
+            String url = tweet.
+                    getExtendedEntities()
+                    .getMediaTweet()
+                    .getVideoInfo()
+                    .getVariants()
+                    .getUrl();
+
+            Log.i("TweetsAdapter", "Video url: " + url);
+
+            videoViewMedia.setMediaController(mediaController);
+            videoViewMedia.setVideoPath(url);
+
+            videoViewMedia.requestFocus();
+            videoViewMedia.start();
+        }
+
+        private void loadImage(Tweet tweet) {
             // Load the media image using Glide
             Glide.
                     with(context)
@@ -150,6 +195,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                     .into(ivMediaPhoto);
         }
     }
+
 
 
 }
