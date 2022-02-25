@@ -32,22 +32,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="start"
+                android:gravity="center_horizontal"
                 android:padding="5dp">
 
                 <ImageView
                     android:id="@+id/ivTwitterIcon"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:src="@drawable/ic_twitter_icon"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:textSize="30sp"
-                    android:text="@string/tweets"
-                    android:textColor="@color/white"/>
+                    android:src="@drawable/ic_twitter_icon"
+                    android:contentDescription="@null"/>
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
 
