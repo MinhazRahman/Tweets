@@ -18,6 +18,10 @@ public class Tweet {
     private User user;
     private ExtendedEntities extendedEntities;
 
+    // empty constructor needed by the Parceler library
+    public Tweet() {
+    }
+
     // Create Tweet object from json object
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();

@@ -8,6 +8,9 @@ import org.parceler.Parcel;
 public class VideoInfo {
     private Variants variants;
 
+    // empty constructor needed by the Parceler library
+    public VideoInfo() {
+    }
     public static VideoInfo getVideoInfoFromJson(JSONObject jsonObject) throws JSONException {
         VideoInfo videoInfo = new VideoInfo();
 

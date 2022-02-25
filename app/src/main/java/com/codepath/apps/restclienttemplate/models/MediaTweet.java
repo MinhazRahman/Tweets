@@ -18,6 +18,7 @@ public class MediaTweet {
     private String type;
     private VideoInfo videoInfo;
 
+    // Empty constructor needed by Parceler library
     public MediaTweet() {
 
     }

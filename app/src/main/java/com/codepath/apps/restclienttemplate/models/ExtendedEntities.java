@@ -8,6 +8,10 @@ import org.parceler.Parcel;
 public class ExtendedEntities {
     private MediaTweet mediaTweet;
 
+    // empty constructor needed by the Parceler library
+    public ExtendedEntities() {
+    }
+
     public static ExtendedEntities fromJson(JSONObject jsonObject) throws JSONException {
         ExtendedEntities extendedEntities = new ExtendedEntities();
         extendedEntities.mediaTweet = MediaTweet.getMediaFromJsonArray(jsonObject.getJSONArray("media"));

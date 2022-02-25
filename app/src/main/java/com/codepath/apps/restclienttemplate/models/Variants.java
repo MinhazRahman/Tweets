@@ -11,6 +11,10 @@ public class Variants {
     private String contentType;
     private String url;
 
+    // empty constructor needed by the Parceler library
+    public Variants() {
+    }
+
     public static Variants getVariantsFromJsonArray(JSONArray jsonArray) throws JSONException {
         Variants variants = new Variants();
 
