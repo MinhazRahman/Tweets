@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.widget.Toolbar;
+
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.application.TwitterApp;
 import com.codepath.apps.restclienttemplate.client.TwitterClient;
@@ -19,11 +21,18 @@ public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 
 	SampleModelDao sampleModelDao;
 	Button btnLogin;
+	Toolbar toolbar;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+
+		// set windowActionBar to false in the theme to use a Toolbar instead
+		toolbar = findViewById(R.id.toolbar);
+		toolbar.setTitle("Tweets");
+		// using toolbar as ActionBar
+		setSupportActionBar(toolbar);
 
 		// Find the views
 		btnLogin = findViewById(R.id.btnLogin);
