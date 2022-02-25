@@ -41,7 +41,8 @@
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            tools:ignore="ExtraText">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvTweets"
@@ -50,7 +51,10 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="0dp"
-                android:layout_marginTop="0dp" />
+                android:layout_marginTop="0dp"
+                android:scrollbars="vertical"
+                android:scrollbarThumbVertical="@color/twitter_dark_gray"
+                android:scrollbarSize="3dp"/>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
