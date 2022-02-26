@@ -78,6 +78,9 @@ public class TweetDetailActivity extends AppCompatActivity {
                 ivTweetImage.setVisibility(View.GONE);
                 rlVideoContainer.setVisibility(View.GONE);
 
+                // Bind common entities
+                setCommonEntities(tweet);
+
             }
         }
 
