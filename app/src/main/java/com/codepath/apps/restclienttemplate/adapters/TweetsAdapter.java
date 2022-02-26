@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +21,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterInside;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.codepath.apps.restclienttemplate.R;
+import com.codepath.apps.restclienttemplate.activities.TweetDetailActivity;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -100,6 +104,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
     // Define a ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder{
+        RelativeLayout rlTweetContainer;
+        RelativeLayout rlTweetExtendedEntityContainer;
         ImageView ivProfileImage;
         TextView tvName;
         TextView tvScreenName;
@@ -114,6 +120,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             super(itemView);
 
             // Find each view of the row layout that itemView refers to
+            rlTweetContainer = itemView.findViewById(R.id.rlTweetContainer);
+            rlTweetExtendedEntityContainer = itemView.findViewById(R.id.rlTweetExtendedEntityContainer);
+
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
             tvName = itemView.findViewById(R.id.tvName);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
@@ -125,6 +134,20 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         }
 
         public void bindTweet(Tweet tweet) {
+            // Register click listener on whole row that does not contain extended entities (image, gif, video)
+            rlTweetContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Navigate to the TweetDetailActivity on tap
+                    Intent intent = new Intent(context, TweetDetailActivity.class);
+                    // Wrap tweet object with Parcels.wrap()
+                    intent.putExtra("tweet", Parcels.wrap(tweet));
+
+                    // Launch the TweetDetailActivity
+                    context.startActivity(intent);
+                }
+            });
+
             // Load the profile image using Glide
             Glide.
                     with(context)
@@ -140,6 +163,20 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         }
 
         public void bindTweetWithExtendedEntities(Tweet tweet) {
+            // Register click listener on whole row that contain extended entities (image, gif, video)
+            rlTweetExtendedEntityContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Navigate to the TweetDetailActivity on tap
+                    Intent intent = new Intent(context, TweetDetailActivity.class);
+                    // Wrap tweet object with Parcels.wrap()
+                    intent.putExtra("tweet", Parcels.wrap(tweet));
+
+                    // Launch the TweetDetailActivity
+                    context.startActivity(intent);
+                }
+            });
+
             // Load the profile image using Glide
             Glide.
                     with(context)
@@ -152,6 +189,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvRelativeTimestamp.setText(tweet.getRelativeTimestamp());
             tvBody.setText(tweet.getBody());
 
+            // Check if the media type is 'image', 'animated_gif' or 'video'
             // Bind Photo, GIF or Video
             String mediaType = tweet.getExtendedEntities().getMediaTweet().getType();
 
@@ -162,28 +200,32 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                 ivMediaPhoto.setVisibility(View.GONE);
                 loadVideo(tweet);
             }
-            
         }
 
         private void loadVideo(Tweet tweet) {
-            MediaController mediaController = new MediaController(context);
+            try {
+                MediaController mediaController = new MediaController(context);
 
-            mediaController.setAnchorView(videoViewMedia);
+                mediaController.setAnchorView(videoViewMedia);
 
-            String url = tweet.
-                    getExtendedEntities()
-                    .getMediaTweet()
-                    .getVideoInfo()
-                    .getVariants()
-                    .getUrl();
+                // get the url of the video
+                String url = tweet.
+                        getExtendedEntities()
+                        .getMediaTweet()
+                        .getVideoInfo()
+                        .getVariants()
+                        .getUrl();
 
-            Log.i("TweetsAdapter", "Video url: " + url);
+                Log.i("TweetsAdapter", "Video url: " + url);
 
-            videoViewMedia.setMediaController(mediaController);
-            videoViewMedia.setVideoPath(url);
+                videoViewMedia.setMediaController(mediaController);
+                videoViewMedia.setVideoPath(url);
 
-            videoViewMedia.requestFocus();
-            videoViewMedia.start();
+                videoViewMedia.requestFocus();
+                videoViewMedia.start();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
 
         private void loadImage(Tweet tweet) {

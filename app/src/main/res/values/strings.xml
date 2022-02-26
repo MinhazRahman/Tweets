@@ -10,5 +10,6 @@
     <string name="connect_to_twitter">CONNECT TO TWITTER</string>
     <string name="user_name">user_name</string>
     <string name="ts10h">ts10h</string>
+    <string name="tweet">Tweet</string>
 
 </resources>
