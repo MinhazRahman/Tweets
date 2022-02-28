@@ -1,5 +1,6 @@
 package com.codepath.apps.restclienttemplate.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,6 +9,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 
 import com.codepath.apps.restclienttemplate.R;
@@ -108,6 +113,26 @@ public class TimelineActivity extends AppCompatActivity {
         rvTweets.addOnScrollListener(scrollListener);
 
         populateHomeTimeline();
+    }
+
+    // Menu icons are inflated just as they were with actionbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    // Handle clicks on the Menu item
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // Handle presses on the action bar items
+        if (item.getItemId() == R.id.compose){
+            // compose icon has been selected
+            Toast.makeText(this,  "Compose", Toast.LENGTH_SHORT).show();
+            // Navigate to the compose activity
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     // this is where we will make another API call to get the next page of tweets
