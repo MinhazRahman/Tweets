@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ComposeActivity extends AppCompatActivity {
@@ -14,7 +15,7 @@ public class ComposeActivity extends AppCompatActivity {
 
     EditText editTextCompose;
     Button btnTweet;
-    ImageView ivCancel;
+    TextView tvCancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,7 @@ public class ComposeActivity extends AppCompatActivity {
         // Find the views inside the activity layout
         editTextCompose = findViewById(R.id.editTextCompose);
         btnTweet = findViewById(R.id.btnTweet);
-        ivCancel = findViewById(R.id.ivCancel);
+        tvCancel = findViewById(R.id.tvCancel);
 
         // Set the click listener on the button
         btnTweet.setOnClickListener(new View.OnClickListener() {
@@ -46,7 +47,7 @@ public class ComposeActivity extends AppCompatActivity {
         });
 
         // Set the click listener on the button
-        ivCancel.setOnClickListener(new View.OnClickListener() {
+        tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
