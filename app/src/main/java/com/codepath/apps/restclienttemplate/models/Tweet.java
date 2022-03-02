@@ -38,6 +38,18 @@ public class Tweet {
         return tweet;
     }
 
+    // Get normal tweet (not the extended tweet) from json.
+    public static Tweet getTextOnlyTweetFromJson(JSONObject jsonObject) throws JSONException {
+        Tweet tweet = new Tweet();
+
+        tweet.id = jsonObject.getLong("id");
+        tweet.body = jsonObject.getString("text");
+        tweet.createdAt = jsonObject.getString("created_at");
+        tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+
+        return tweet;
+    }
+
     // Create the list of Tweets from the json array
     public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException {
         List<Tweet> tweets = new ArrayList<>();
