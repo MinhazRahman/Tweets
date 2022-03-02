@@ -7,6 +7,7 @@ import com.codepath.apps.restclienttemplate.client.TwitterClient;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
+import org.parceler.Parcels;
 
 import okhttp3.Headers;
 
@@ -64,10 +66,25 @@ public class ComposeActivity extends AppCompatActivity {
                     public void onSuccess(int statusCode, Headers headers, JSON json) {
                         Log.i(TAG, "onSuccess to publish tweet");
 
-                        // Get the published tweet
                         try {
+                            // Get the published tweet
                             Tweet tweet = Tweet.getTextOnlyTweetFromJson(json.jsonObject);
+
                             Log.i(TAG, "Published tweet: " + tweet.getBody());
+
+                            // Prepare data intent
+                            Intent intent = new Intent();
+                            // Pass relevant data back as a result
+                            // Wrap tweet object with Parcels.wrap()
+                            intent.putExtra("tweet", Parcels.wrap(tweet));
+
+                            // Activity finished ok, return the data
+                            // set result code and bundle data for response
+                            setResult(RESULT_OK, intent);
+
+                            //closes the activity, pass data to parent
+                            finish();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
