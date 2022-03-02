@@ -2,25 +2,39 @@ package com.codepath.apps.restclienttemplate.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.codepath.apps.restclienttemplate.R;
+import com.codepath.apps.restclienttemplate.application.TwitterApp;
+import com.codepath.apps.restclienttemplate.client.TwitterClient;
+import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+
+import okhttp3.Headers;
+
 public class ComposeActivity extends AppCompatActivity {
+    public static final String TAG = "ComposeActivity";
     public static final int MAX_TWEET_LENGTH = 140;
 
     EditText editTextCompose;
     Button btnTweet;
     TextView tvCancel;
+    TwitterClient twitterClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
+
+        // Initialize the TwitterClient
+        twitterClient = TwitterApp.getRestClient(this);
 
         // Find the views inside the activity layout
         editTextCompose = findViewById(R.id.editTextCompose);
@@ -31,7 +45,9 @@ public class ComposeActivity extends AppCompatActivity {
         btnTweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Get the tweet content that we will publish
                 String tweetContent = editTextCompose.getText().toString();
+
                 if (tweetContent.isEmpty()){
                     Toast.makeText(ComposeActivity.this, "Sorry! your tweet can not be empty.", Toast.LENGTH_SHORT).show();
                     return;
@@ -43,6 +59,25 @@ public class ComposeActivity extends AppCompatActivity {
                 }
 
                 // Make an API call to the Twitter to publish the tweet
+                twitterClient.publishTweet(tweetContent, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Headers headers, JSON json) {
+                        Log.i(TAG, "onSuccess to publish tweet");
+
+                        // Get the published tweet
+                        try {
+                            Tweet tweet = Tweet.getTextOnlyTweetFromJson(json.jsonObject);
+                            Log.i(TAG, "Published tweet: " + tweet.getBody());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                        Log.e(TAG, "onFailure to publish tweet" + response, throwable);
+                    }
+                });
             }
         });
 
