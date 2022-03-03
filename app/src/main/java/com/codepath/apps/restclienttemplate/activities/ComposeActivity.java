@@ -6,13 +6,16 @@ import com.codepath.apps.restclienttemplate.application.TwitterApp;
 import com.codepath.apps.restclienttemplate.client.TwitterClient;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,9 +26,10 @@ import okhttp3.Headers;
 
 public class ComposeActivity extends AppCompatActivity {
     public static final String TAG = "ComposeActivity";
-    public static final int MAX_TWEET_LENGTH = 140;
+    public static final int MAX_TWEET_LENGTH = 15;
 
-    EditText editTextCompose;
+    TextInputLayout textInputLayoutCompose;
+    TextInputEditText textInputEditTextCompose;
     Button btnTweet;
     TextView tvCancel;
     TwitterClient twitterClient;
@@ -39,7 +43,8 @@ public class ComposeActivity extends AppCompatActivity {
         twitterClient = TwitterApp.getRestClient(this);
 
         // Find the views inside the activity layout
-        editTextCompose = findViewById(R.id.editTextCompose);
+        textInputLayoutCompose = findViewById(R.id.textInputLayoutCompose);
+        textInputEditTextCompose = findViewById(R.id.editTextCompose);
         btnTweet = findViewById(R.id.btnTweet);
         tvCancel = findViewById(R.id.tvCancel);
 
@@ -48,7 +53,7 @@ public class ComposeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Get the tweet content that we will publish
-                String tweetContent = editTextCompose.getText().toString();
+                String tweetContent = textInputEditTextCompose.getText().toString();
 
                 if (tweetContent.isEmpty()){
                     Toast.makeText(ComposeActivity.this, "Sorry! your tweet can not be empty.", Toast.LENGTH_SHORT).show();
@@ -105,5 +110,33 @@ public class ComposeActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        // Set add text listener on the input edit text
+        // Handle an event as the text in the view is being changed.
+        // Display a character count for the twitter client as the user types their tweet
+        textInputEditTextCompose.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                textInputLayoutCompose.setHint(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() == 0) {
+                    textInputLayoutCompose.setHint(null);
+                }else if((MAX_TWEET_LENGTH - editable.length()) >= 0) {
+                    textInputLayoutCompose.setHint((MAX_TWEET_LENGTH - editable.length())+" character left");
+                }
+                else {
+                    textInputLayoutCompose.setHint((MAX_TWEET_LENGTH - editable.length())+"");
+                }
+            }
+        });
+
     }
 }

@@ -38,4 +38,12 @@
         <item name="android:windowContentTransitions">true</item>
     </style>
 
+    <style name="counterText">
+        <item name="android:textColor">@color/twitter_light_gray</item>
+    </style>
+
+    <style name="counterOverride">
+        <item name="android:textColor">#ff0000</item>
+    </style>
+
 </resources>
