@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -29,6 +30,7 @@ import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.apps.restclienttemplate.utils.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.restclienttemplate.utils.SpacesItemDecoration;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,6 +56,7 @@ public class TimelineActivity extends AppCompatActivity {
     SwipeRefreshLayout swipeContainer;
     EndlessRecyclerViewScrollListener scrollListener;
     Toolbar toolbar;
+    FloatingActionButton floatingActionBtnCompose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,7 @@ public class TimelineActivity extends AppCompatActivity {
         // Find the views
         swipeContainer = findViewById(R.id.swipeContainer);
         rvTweets = findViewById(R.id.rvTweets);
+        floatingActionBtnCompose = findViewById(R.id.floatingActionBtnCompose);
 
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -122,14 +126,17 @@ public class TimelineActivity extends AppCompatActivity {
 
         populateHomeTimeline();
 
-    }
-
-    // Menu icons are inflated just as they were with actionbar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        // Launch Compose tweet screen when clicked on the Floating Add button
+        floatingActionBtnCompose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // compose icon has been selected
+                Toast.makeText(TimelineActivity.this,  "Compose", Toast.LENGTH_SHORT).show();
+                // Navigate to the compose activity
+                Intent intent = new Intent(TimelineActivity.this, ComposeActivity.class);
+                composeActivityResultLauncher.launch(intent);
+            }
+        });
     }
 
     // Returning Data Result to Timeline Activity
@@ -158,21 +165,6 @@ public class TimelineActivity extends AppCompatActivity {
                     }
                 }
             });
-
-    // Handle clicks on the Menu item
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        // Handle presses on the action bar items
-        if (item.getItemId() == R.id.compose){
-            // compose icon has been selected
-            Toast.makeText(this,  "Compose", Toast.LENGTH_SHORT).show();
-
-            // Navigate to the compose activity
-            Intent intent = new Intent(this, ComposeActivity.class);
-            composeActivityResultLauncher.launch(intent);
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     // this is where we will make another API call to get the next page of tweets
     // and add the objects to our current list of tweets
