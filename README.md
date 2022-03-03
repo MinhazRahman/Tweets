@@ -19,7 +19,7 @@ The following **optional** features are implemented:
 - [x] User can click links in tweets launch the web browser
 - [ ] User can **select "reply" from detail view to respond to a tweet**
 - [x] The "Compose" action is moved to a FloatingActionButton instead of on the AppBar
-- [ ] Compose tweet functionality is build using modal overlay
+- [ ] Compose tweet functionality is built using modal overlay
 - [x] Use Parcelable instead of Serializable using the popular [Parceler library](http://guides.codepath.org/android/Using-Parceler).
 - [ ] User can **open the twitter app offline and see last loaded tweets**. Persisted in SQLite tweets are refreshed on every application launch. While "live data" is displayed when app can get it from Twitter API, it is also saved for use in offline mode.
 - [ ] When a user leaves the compose view without publishing and there is existing text, prompt to save or delete the draft. If saved, the draft should then be **persisted to disk** and can later be resumed from the compose view.
@@ -27,7 +27,7 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-- [ ] List anything else that you can get done to improve the app functionality!
+- [x] In Compose tweet screen, user can click on the Cancel button to go back to the home timeline.
 
 ## Video Walkthrough
 

@@ -127,8 +127,10 @@ public class ComposeActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
+
                 if (editable.length() == 0) {
-                    textInputLayoutCompose.setHint(null);
+                    textInputEditTextCompose.setHint(null);
+                    textInputLayoutCompose.setHint("What's happening?");
                 }else if((MAX_TWEET_LENGTH - editable.length()) >= 0) {
                     textInputLayoutCompose.setHint((MAX_TWEET_LENGTH - editable.length())+" character left");
                 }
@@ -136,7 +138,19 @@ public class ComposeActivity extends AppCompatActivity {
                     textInputLayoutCompose.setHint((MAX_TWEET_LENGTH - editable.length())+"");
                 }
             }
+
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // set focus on textInputEditTextCompose
+        textInputEditTextCompose.setFocusableInTouchMode(true);
+        textInputEditTextCompose.requestFocus();
+        textInputLayoutCompose.setHint(null);
+        textInputEditTextCompose.setHint("What's happening?");
     }
 }
