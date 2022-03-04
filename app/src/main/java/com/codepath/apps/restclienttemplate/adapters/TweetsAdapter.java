@@ -115,6 +115,12 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         VideoView videoViewMedia;
         RelativeLayout rlVideoContainer;
 
+        // Views for reply, retweet, like and share buttons
+        TextView tvReply;
+        TextView tvRetweet;
+        TextView tvLike;
+        TextView tvShare;
+
         // itemView refers to each row layout (a set of views)
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -131,6 +137,11 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivMediaPhoto = itemView.findViewById(R.id.ivMediaPhoto);
             videoViewMedia = itemView.findViewById(R.id.videoViewMedia);
             rlVideoContainer = itemView.findViewById(R.id.rlVideoContainer);
+
+            tvReply = itemView.findViewById(R.id.tvReply);
+            tvRetweet = itemView.findViewById(R.id.tvRetweet);
+            tvLike = itemView.findViewById(R.id.tvLike);
+            tvShare = itemView.findViewById(R.id.tvShare);
         }
 
         public void bindTweet(Tweet tweet) {
@@ -160,6 +171,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvRelativeTimestamp.setText(tweet.getRelativeTimestamp());
             tvBody.setText(tweet.getBody());
 
+            tvRetweet.setText(String.valueOf(tweet.getRetweetCount()));
+            tvLike.setText(String.valueOf(tweet.getFavouriteCount()));
+
         }
 
         public void bindTweetWithExtendedEntities(Tweet tweet) {
@@ -188,6 +202,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName.setText(tweet.getUser().getScreenName());
             tvRelativeTimestamp.setText(tweet.getRelativeTimestamp());
             tvBody.setText(tweet.getBody());
+
+            tvRetweet.setText(String.valueOf(tweet.getRetweetCount()));
+            tvLike.setText(String.valueOf(tweet.getFavouriteCount()));
 
             // Check if the media type is 'image', 'animated_gif' or 'video'
             // Bind Photo, GIF or Video
