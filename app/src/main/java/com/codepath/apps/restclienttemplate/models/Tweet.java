@@ -17,6 +17,8 @@ public class Tweet {
     private String createdAt;
     private User user;
     private ExtendedEntities extendedEntities;
+    private long retweetCount;
+    private long favouriteCount;
 
     // empty constructor needed by the Parceler library
     public Tweet() {
@@ -34,6 +36,8 @@ public class Tweet {
         if (jsonObject.has("extended_entities")){
             tweet.extendedEntities = ExtendedEntities.fromJson(jsonObject.getJSONObject("extended_entities"));
         }
+        tweet.retweetCount = jsonObject.getLong("retweet_count");
+        tweet.favouriteCount = jsonObject.getLong("favorite_count");
 
         return tweet;
     }
@@ -83,5 +87,13 @@ public class Tweet {
 
     public String getRelativeTimestamp(){
         return ". " + TimeFormatter.getTimeDifference(createdAt);
+    }
+
+    public long getRetweetCount() {
+        return retweetCount;
+    }
+
+    public long getFavouriteCount() {
+        return favouriteCount;
     }
 }
