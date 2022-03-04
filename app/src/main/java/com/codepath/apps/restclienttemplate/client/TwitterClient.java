@@ -76,6 +76,14 @@ public class TwitterClient extends OAuthBaseClient {
 		client.post(apiUrl, params, "", handler);
 	}
 
+	// Get the credentials of the verified authenticated user
+	// In our application, we will get the credentials of the user who logs in using our app
+	public void getVerifiedUserCredentials(JsonHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("account/verify_credentials.json");
+
+		client.get(apiUrl, handler);
+	}
+
 	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
 	 * 	  i.e getApiUrl("statuses/home_timeline.json");
 	 * 2. Define the parameters to pass to the request (query or body)
