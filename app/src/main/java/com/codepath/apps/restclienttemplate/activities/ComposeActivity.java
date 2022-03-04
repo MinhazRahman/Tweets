@@ -1,10 +1,14 @@
 package com.codepath.apps.restclienttemplate.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.application.TwitterApp;
 import com.codepath.apps.restclienttemplate.client.TwitterClient;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.models.User;
+import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -16,6 +20,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +38,7 @@ public class ComposeActivity extends AppCompatActivity {
     Button btnTweet;
     TextView tvCancel;
     TwitterClient twitterClient;
+    ImageView ivProfileImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +53,7 @@ public class ComposeActivity extends AppCompatActivity {
         textInputEditTextCompose = findViewById(R.id.editTextCompose);
         btnTweet = findViewById(R.id.btnTweet);
         tvCancel = findViewById(R.id.tvCancel);
+        ivProfileImage = findViewById(R.id.ivProfileImage);
 
         // Set the click listener on the button
         btnTweet.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +150,44 @@ public class ComposeActivity extends AppCompatActivity {
 
     }
 
+    // Get logged in user credentials
+    private void getLoggedInUser(){
+
+        twitterClient.getVerifiedUserCredentials(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.i(TAG, "onSuccess to get user credentials");
+                try {
+                    User loggedInUser = User.fromJson(json.jsonObject);
+                    Log.i(TAG, "Uer name: " + loggedInUser.getName());
+                    Log.i(TAG, "Uer Screen name: " + loggedInUser.getScreenName());
+                    Log.i(TAG, "Profile image url: " + loggedInUser.getProfileImageUrl());
+                    setProfileImage(loggedInUser);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.e(TAG, "onFailure to get user credentials" + response, throwable);
+            }
+        });
+    }
+
+    // Set profile image for the logged in user
+    private void setProfileImage(User user){
+        // Load the profile image using Glide
+        Glide.
+                with(this)
+                .load(user.getProfileImageUrl())
+                .circleCrop()
+                .into(ivProfileImage);
+    }
+
+    // onResume method is called after onCreate method
+    // After creating all the views we want to populate them with data that we will get from the api call
     @Override
     protected void onResume() {
         super.onResume();
@@ -152,5 +197,8 @@ public class ComposeActivity extends AppCompatActivity {
         textInputEditTextCompose.requestFocus();
         textInputLayoutCompose.setHint(null);
         textInputEditTextCompose.setHint("What's happening?");
+
+        // get logged in user
+        getLoggedInUser();
     }
 }

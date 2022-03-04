@@ -54,11 +54,24 @@
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
+    <ImageView
+        android:id="@+id/ivProfileImage"
+        android:layout_below="@+id/toolbar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        tools:srcCompat="@tools:sample/avatars"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"/>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutCompose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
+        android:layout_toEndOf="@id/ivProfileImage"
+        android:layout_marginStart="5dp"
         app:counterEnabled="true"
         app:counterMaxLength="15"
         app:counterTextAppearance="@style/counterText"
@@ -70,7 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="-5dp"
+            android:layout_marginTop="0dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
             android:ems="10"
