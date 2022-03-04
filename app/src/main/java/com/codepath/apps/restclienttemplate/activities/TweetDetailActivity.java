@@ -30,6 +30,12 @@ public class TweetDetailActivity extends AppCompatActivity {
     VideoView videoViewPlayer;
     ImageView iconPlay;
 
+    // Views for reply, retweet, like and share buttons
+    TextView tvReply;
+    TextView tvRetweet;
+    TextView tvLike;
+    TextView tvShare;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +52,11 @@ public class TweetDetailActivity extends AppCompatActivity {
         ivTweetImage = findViewById(R.id.ivTweetImage);
         videoViewPlayer = findViewById(R.id.videoViewPlayer);
         iconPlay = findViewById(R.id.iconPlay);
+
+        tvReply = findViewById(R.id.tvReply);
+        tvRetweet = findViewById(R.id.tvRetweet);
+        tvLike = findViewById(R.id.tvLike);
+        tvShare = findViewById(R.id.tvShare);
 
         // Unwrap the Parcel object
         Tweet tweet = (Tweet) Parcels.unwrap(getIntent().getParcelableExtra("tweet"));
@@ -106,6 +117,9 @@ public class TweetDetailActivity extends AppCompatActivity {
         tvScreenName.setText(tweet.getUser().getScreenName());
         tvRelativeTimestamp.setText(tweet.getRelativeTimestamp());
         tvBody.setText(tweet.getBody());
+
+        tvRetweet.setText(String.valueOf(tweet.getRetweetCount()));
+        tvLike.setText(String.valueOf(tweet.getFavouriteCount()));
     }
 
     private void loadImage(Tweet tweet) {
