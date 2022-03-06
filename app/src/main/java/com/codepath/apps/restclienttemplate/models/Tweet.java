@@ -1,5 +1,11 @@
 package com.codepath.apps.restclienttemplate.models;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.codepath.apps.restclienttemplate.utils.TimeFormatter;
 
 import org.json.JSONArray;
@@ -11,14 +17,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Parcel
+@Entity(foreignKeys = @ForeignKey(entity = User.class, parentColumns = "id", childColumns = "userId"))
 public class Tweet {
-    private long id;
-    private String body;
-    private String createdAt;
-    private User user;
-    private ExtendedEntities extendedEntities;
-    private long retweetCount;
-    private long favouriteCount;
+
+    @ColumnInfo
+    @PrimaryKey
+    public long id;
+
+    @ColumnInfo
+    public String body;
+
+    @ColumnInfo
+    public String createdAt;
+
+    @Ignore
+    public ExtendedEntities extendedEntities;
+
+    @ColumnInfo
+    public long retweetCount;
+
+    @ColumnInfo
+    public long favouriteCount;
+
+    @ColumnInfo
+    public long userId;
+
+    @Ignore
+    public User user;
 
     // empty constructor needed by the Parceler library
     public Tweet() {
@@ -31,7 +56,10 @@ public class Tweet {
         tweet.id = jsonObject.getLong("id");
         tweet.body = jsonObject.getString("full_text");
         tweet.createdAt = jsonObject.getString("created_at");
-        tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+
+        User user = User.fromJson(jsonObject.getJSONObject("user"));
+        tweet.user = user;
+        tweet.userId = user.getId();
         
         if (jsonObject.has("extended_entities")){
             tweet.extendedEntities = ExtendedEntities.fromJson(jsonObject.getJSONObject("extended_entities"));
@@ -79,6 +107,14 @@ public class Tweet {
 
     public User getUser() {
         return user;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public ExtendedEntities getExtendedEntities() {

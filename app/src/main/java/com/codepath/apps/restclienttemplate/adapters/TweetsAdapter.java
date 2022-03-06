@@ -196,6 +196,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                     with(context)
                     .load(tweet.getUser().getProfileImageUrl())
                     .circleCrop()
+                    .placeholder(R.drawable.ic_baseline_image_not_supported_24)
                     .into(ivProfileImage);
 
             tvName.setText(tweet.getUser().getName());
@@ -251,6 +252,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                     with(context)
                     .load(tweet.getExtendedEntities().getMediaTweet().getMediaUrlHttps())
                     .transform(new CenterInside(), new RoundedCorners(30))
+                    .placeholder(R.drawable.ic_baseline_image_not_supported_24)
                     .into(ivMediaPhoto);
         }
     }

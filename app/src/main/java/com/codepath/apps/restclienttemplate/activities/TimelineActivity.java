@@ -13,6 +13,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -26,7 +27,10 @@ import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.adapters.TweetsAdapter;
 import com.codepath.apps.restclienttemplate.application.TwitterApp;
 import com.codepath.apps.restclienttemplate.client.TwitterClient;
+import com.codepath.apps.restclienttemplate.data.TweetDAO;
+import com.codepath.apps.restclienttemplate.data.TweetWithUser;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.models.User;
 import com.codepath.apps.restclienttemplate.utils.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.restclienttemplate.utils.SpacesItemDecoration;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -47,6 +51,7 @@ public class TimelineActivity extends AppCompatActivity {
     public static final int REQUEST_CODE = 20;
     public static String TAG = "TimelineActivity";
 
+    TweetDAO tweetDao;
     TwitterClient twitterClient;
     RecyclerView rvTweets;
     List<Tweet> tweets;
@@ -71,6 +76,7 @@ public class TimelineActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         twitterClient = TwitterApp.getRestClient(this);
+        tweetDao = ((TwitterApp) getApplicationContext()).getMyDatabase().tweetDao();
 
         // Find the views
         swipeContainer = findViewById(R.id.swipeContainer);
@@ -123,6 +129,19 @@ public class TimelineActivity extends AppCompatActivity {
 
         // Adds the scroll listener to RecyclerView
         rvTweets.addOnScrollListener(scrollListener);
+
+        // Query for existing tweets in the DB
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                Log.i(TAG, "Showing data from BD");
+                List<TweetWithUser> tweetWithUsers = tweetDao.recentItems();
+                List<Tweet> tweetsFromDB = TweetWithUser.getTweetList(tweetWithUsers);
+
+                tweetsAdapter.clear();
+                tweetsAdapter.addAll(tweetsFromDB);
+            }
+        });
 
         populateHomeTimeline();
 
@@ -201,12 +220,26 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.i(TAG, "onSuccess." + json.toString());
                 JSONArray jsonArray = json.jsonArray;
                 try {
+                    final List<Tweet> tweetsFromNetwork = Tweet.fromJsonArray(jsonArray);
                     // CLEAR OUT old items before appending in the new ones
                     tweetsAdapter.clear();
                     // ...the data has come back, add new items to the adapter...
-                    tweetsAdapter.addAll(Tweet.fromJsonArray(jsonArray));
+                    tweetsAdapter.addAll(tweetsFromNetwork);
                     // Now we call setRefreshing(false) to signal refresh has finished
                     swipeContainer.setRefreshing(false);
+
+                    // Query for existing tweets in the DB
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.i(TAG, "Saving data into the BD");
+                            // Insert users first
+                            List<User> usersFromNetwork = User.fromJsonTweetArray(tweetsFromNetwork);
+                            tweetDao.insertModel(usersFromNetwork.toArray(new User[0]));
+                            // Insert tweets next
+                            tweetDao.insertModel(tweetsFromNetwork.toArray(new Tweet[0]));
+                        }
+                    });
                 } catch (JSONException e) {
                     Log.i(TAG, "Json exception", e);
                 }
